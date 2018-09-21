@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Food app</title>
+
+  <!-- mp: reset.css -->
+  <link type="stylesheet" href="./assets/reset.css"> 
+
+<!-- Bootstrap CSS -->
+ <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+   crossorigin="anonymous">
+ <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js" integrity="sha384-kW+oWsYx3YpxvjtZjFXqazFpA7UP/MbiY4jvs+RWZo2+N94PFZ36T6TFkc9O3qoB"
+   crossorigin="anonymous"></script>
+
+  <!-- mp: cdn for firebaseui -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+  <script src="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.js"></script>
+  <link rel="stylesheet" href="./assets/style.css"></head>
+  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.css" />
+
+  <!-- api part cdn -->
+  <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+
+<body>
+
+  <div class="jumbotron paral paralsec">
+    <button class="button">
+    </button>
+    <div id="first-main-display">
+      <h1 class="display-3"><strong>Lets Find You A Delicious Meal</strong></h1>
+      <p class="lead">It's Simple....Browse, purchase, pickup, cook!</p>
+    </div>
+    <div class="col-md-4">
+      <input type="search" class="form-control" id="food" placeholder="Enter Food Item">
+    </div>
+    <br>
+    <br>
+    <button class="button">
+      <div class="btn btn-outline-light"><i class="fas fa-utensils"></i> EAT
+      </div>
+    </button>
+    <button class="button">
+      <div class="btn btn-outline-light"><i class="fas fa-cookie-bite"></i> INGREDIENTS
+      </div>
+    </button>
+    <button class="button">
+      <div class="btn btn-outline-light"><i class="far fa-list-alt"></i> GROCERY LIST
+      </div>
+    </button>
+    <button class="button">
+      <div class="btn btn-outline-light"><i class="fas fa-shopping-cart"></i> CHECKOUT
+      </div>
+    </button>
+    <button class="button">
+      <div class="btn btn-outline-light"><i class="far fa-grin-tongue"></i> RANDOM
+      </div>
+    </button>
+    <button class="button" id="signout-button" style="display: none">
+      <div class="btn btn-outline-light"><i class="fas fa-key"></i> SIGNOUT 
+      </div>
+    </button>
+
+      <!-- mp: login container -->
+    <div id="firebaseui-auth-container" style="padding: 40px"></div>
+    <div id="loader">Loading...</div>
+  </div>
+
+
+ <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+   crossorigin="anonymous"></script>
+ <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+   crossorigin="anonymous"></script>
+ <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
+   crossorigin="anonymous"></script>
+
+  <!-- mp: firebase app cdn -->
+  <!-- Firebase App is always required and must be first -->
+<!-- <script src="https://www.gstatic.com/firebasejs/5.5.0/firebase.js"></script> -->
+  <script src="https://www.gstatic.com/firebasejs/5.4.1/firebase-app.js"></script>
+
+  <!-- Add additional services that you want to use -->
+  <script src="https://www.gstatic.com/firebasejs/5.4.1/firebase-auth.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.4.1/firebase-database.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/5.4.1/firebase-functions.js"></script>
+  <script src="./assets/main.js"></script>
+
+</body>
+</html>
