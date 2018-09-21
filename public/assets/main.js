@@ -8,7 +8,17 @@ var config = {
   messagingSenderId: "42896755050"
 };
 
+
 firebase.initializeApp(config);
+
+var database = firebase.database();
+
+var api;
+
+database.ref('/api/').on('value', function(snapshot){
+  api = snapshot.val();
+});
+console.log(api);
 
 // var signInButton = document.getElementById("signIn")
 // signInButton.addEventListener("click", signIn);
@@ -53,13 +63,14 @@ firebase.auth().onAuthStateChanged(function(user){
  
   // mp: code redundant
   if (user){
-    console.log(getUid());
     elements.signin.forEach((e) => {
       e.style.display = "none"
     });
     elements.signout.forEach((e) => {
       e.style.display = "block"
     });
+    addUserProfile(user);
+    
   } else {
     elements.signin.forEach((e) => {
       e.style.display = "block"
@@ -80,7 +91,26 @@ function getUid(){
   return getUser().uid;
 }
 
+function getUemail(){
+  return getUser().email;
+}
+
 function signOut(){
   firebase.auth().signOut();
 }
 
+function addUserProfile(user){
+  if (user.uid in database.ref('/users/')){
+  } else {
+    database.ref('/users/' + user.uid).set(constructUser(user));
+  }
+}
+
+function constructUser(user){
+  return {
+    name: user.displayName,
+    uid: user.uid,
+    email: user.email,
+    favoirts: ["placeholder"]
+  }
+}
