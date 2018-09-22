@@ -100,8 +100,7 @@ firebase.auth().onAuthStateChanged(function(user){
   let elements = {
     // to-be disappeared when sign in
     // to-be appeared when sign out
-    signin : [document.getElementById("firebaseui-auth-container"),
-              document.getElementById("first-main-display")],
+    signin : [document.getElementById("firebaseui-auth-container")],
     // to-be appeared when sign out
     // to-be disappeared when sign 
     signout : [document.getElementById("signout-button")]
