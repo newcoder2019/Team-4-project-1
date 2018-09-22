@@ -21,6 +21,11 @@
     line-height: 100px;
     }
 
+.SearchBar {
+    position: relative;
+    width: 500px;
+}
+
     /* Image for Parallax Section */
 .paralsec {
     background-image: url("../images/Food.jpg")
