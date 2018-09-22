@@ -20,18 +20,24 @@
     padding-top: 60px;
     line-height: 100px;
     }
- 
+
     /* Image for Parallax Section */
 .paralsec {
-    background-image: url("../images/spices_seasonings_red_pepper_black_pepper_pepper_star_anise_onion_ginger_garlic_walnuts_bay_leaf_78738_1920x1080.jpg")
+    background-image: url("../images/Food.jpg")
     }
  
     /* Add more images for more sections */
  
 .button {
     background-color: Transparent;
-    background-repeat:no-repeat;
+    background-repeat: no-repeat;
     border: none;
     cursor:pointer;
     overflow: hidden;
  }
+
+ @media (min-width: 600px) {
+  body {
+    background: white;
+  }
+}
