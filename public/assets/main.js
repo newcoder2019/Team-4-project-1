@@ -13,6 +13,7 @@ firebase.initializeApp(config);
 
 var userSignedIn = false;
 var database = firebase.database();
+var userSignedIn = false;
 
 var api = {}
 var userProfile = {}
