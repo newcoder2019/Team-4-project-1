@@ -1,4 +1,4 @@
-function searchRecipeByTerms(foodTerm) {
+function searchRecipeByTerms(foodTerm, type) {
     let url = "http://api.yummly.com/v1/api/recipes";
     url += '?_app_id=' + keys.yummly.appId
         + '&_app_key=' + keys.yummly.key
@@ -7,37 +7,83 @@ function searchRecipeByTerms(foodTerm) {
         url: url,
         method: 'GET',
         success: function (result) {
-            appendResult(result.matches)
+            appendResult(result.matches, type)
         }
     }).fail(function (err) {
         throw err;
     });
 }
 
+function ingredientInfo(ingredientClicked) {
+    let url = 'https://api.edamam.com/api/food-database/parser?ingr=';
+
+    url += ingredientClicked +
+        '&app_id=' + keys.foodDb.appId
+        + '&app_key=' + keys.foodDb.key
+
+    $.ajax({
+        url: url,
+        method: 'GET',
+        success: function (result) {
+            let info = (result.parsed[0].food.nutrients != null) ? result.parsed[0].food.nutrients : null;
+            appendInfo(info, ingredientClicked);
+        }
+    }).fail(function (err) {
+        throw err;
+    })
+}
+
+function appendInfo(result, id, currDiv) {
+    (result != null) ? Object.keys(result).forEach(e => $('.append').append(`<p class='info'>${e} ${result[e]}</p>`)) : $('.append').append(`<p>No info available</p>`);
+    $('.append').attr('class', 'list-group-item');
+}
+
 function secondsToMinutes(seconds) {
     return parseInt(seconds) / 60;
 }
 
-function appendResult(food) {
+function appendResult(food, type) {
     $('#foods').html('');
     $('#foodlist').html('');
-    if (food.length == 0) {
-        $('#foods').html('No results found');
-    }
-    for (var i = 0; i < food.length; i++) {
+
+    if (type == 1) {
+
+        if (food.length == 0) {
+            $('#foods').html('No results found');
+        }
+
+        for (var i = 0; i < food.length; i++) {
+            $('#foods').append(`
+            <div class="card" style="width: 18rem;">
+                <img class="card-img-top" src=${food[i].smallImageUrls[0]} alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title"><ul>${food[i].recipeName}</ul></h5>
+                    <p class="card-text">
+                        <ul>Prepared in ${secondsToMinutes(food[i].totalTimeInSeconds)} minutes</ul>
+                        </p>
+                        <ul><a href="#" class="btn btn-primary" id='wantIt' data-val=${food[i].id}>Click for more</a></ul>
+                        </div>
+                        </div>
+                        <br>
+                        `)
+        }
+    }else{
+
+        let random = food[Math.floor(Math.random()*food.length)]
+
         $('#foods').append(`
             <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src=${food[i].smallImageUrls[0]} alt="Card image cap">
-            <div class="card-body">
-            <h5 class="card-title"><ul>${food[i].recipeName}</ul></h5>
-            <p class="card-text">
-                <ul>Prepared in ${secondsToMinutes(food[i].totalTimeInSeconds)} minutes</ul>
-                </p>
-            <ul><a href="#" class="btn btn-primary" id='wantIt' data-val=${food[i].id}>Click for more</a></ul>
-            </div>
-            </div>
-            <br>
-            `)
+                <img class="card-img-top" src=${random.smallImageUrls[0]} alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title"><ul>${random.recipeName}</ul></h5>
+                    <p class="card-text">
+                        <ul>Prepared in ${secondsToMinutes(random.totalTimeInSeconds)} minutes</ul>
+                        </p>
+                        <ul><a href="#" class="btn btn-primary" id='wantIt' data-val=${random.id}>Click for more</a></ul>
+                        </div>
+                        </div>
+                        <br>
+                        `)
     }
 }
 
@@ -86,50 +132,26 @@ function displayRecipe(result) {
     //this object can be saved to firebase
 
     $('#foodlist').append(`
-        <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src=${recipeObj.imgLink} alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title">${recipeObj.name}</h5>
-                <p class="card-text">
-                    <ul>Servings: ${recipeObj.servingSize}</ul>
-                    <ul>Calories: ${recipeObj.getCal()}</ul>
-                    <ul>Time to Prepare: ${recipeObj.prepTime}</ul>
-                    </p>
-            </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item"><b>Ingredients</b></li>
-                ${showIngredients(recipeObj.ingredients)}
-            </ul>
-            <div class="card-body">
-                <a href=${recipeObj.URL} target="_blank" class="card-link">Click here for recipe</a>
-            </div>
+    <div class="card" style="width: 18rem;">
+        <img class="card-img-top" src=${recipeObj.imgLink} alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title">${recipeObj.name}</h5>
+            <p class="card-text">
+                <ul>Servings: ${recipeObj.servingSize}</ul>
+                <ul>Calories: ${recipeObj.getCal()}</ul>
+                <ul>Time to Prepare: ${recipeObj.prepTime}</ul>
+                </p>
         </div>
-        
-        `)
-}
-
-function ingredientInfo(ingredientClicked) {
-    let url = 'https://api.edamam.com/api/food-database/parser?ingr=';
-
-    url += ingredientClicked +
-        '&app_id=' + keys.foodDb.appId
-        + '&app_key=' + keys.foodDb.key
-
-    $.ajax({
-        url: url,
-        method: 'GET',
-        success: function (result) {
-            let info = (result.parsed[0].food.nutrients != null) ? result.parsed[0].food.nutrients : null;
-            appendInfo(info, ingredientClicked);
-        }
-    }).fail(function (err) {
-        throw err;
-    })
-}
-
-function appendInfo(result, id, currDiv) {
-    (result != null) ? Object.keys(result).forEach(e => $('.append').append(`<p class='info'>${e} ${result[e]}</p>`)) : $('.append').append(`<p>No info available</p>`);
-    $('.append').attr('class', 'list-group-item');
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item"><b>Ingredients</b></li>
+            ${showIngredients(recipeObj.ingredients)}
+        </ul>
+        <div class="card-body">
+            <a href=${recipeObj.URL} target="_blank" class="card-link">Click here for recipe</a>
+        </div>
+    </div>
+    
+    `)
 }
 
 function recipe(name, prepTime, ingredients, id, servingSize, imgLink, URL, calories) {
@@ -147,6 +169,7 @@ function recipe(name, prepTime, ingredients, id, servingSize, imgLink, URL, calo
 }
 
 function showIngredients(ingredients) {
+    //${showIngredients(food[i].ingredients)}
     let toReturn = '';
     for (let i = 0; i < ingredients.length; i++) {
         let noMeasurements = cleanIngredient(ingredients[i]);
@@ -188,5 +211,9 @@ $(document).on('click', '#wantIt', function () {
 
 $(document).on('click', '#taco', function (e) {
     event.preventDefault();
-    searchRecipeByTerms($('#basic').val().trim());
+    searchRecipeByTerms($('#basic').val().trim(), 1);
 });
+
+$(document).on('click', '#random', function (e) {
+    searchRecipeByTerms(randomFoods(), 2);
+})

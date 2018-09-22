@@ -20,10 +20,8 @@
     <input type="submit" id='taco' value="Search">
     <input type="submit" id='random' value="Think for Me">
     <div id='foods'>
-
     </div>
     <div id="foodlist">
-
     </div>
 
 </body>
@@ -38,7 +36,7 @@
 <script>
 
 
-    function searchRecipeByTerms(foodTerm) {
+    function searchRecipeByTerms(foodTerm, type) {
         let url = "http://api.yummly.com/v1/api/recipes";
         url += '?_app_id=' + keys.yummly.appId
             + '&_app_key=' + keys.yummly.key
@@ -47,7 +45,7 @@
             url: url,
             method: 'GET',
             success: function (result) {
-                appendResult(result.matches)
+                appendResult(result.matches, type)
             }
         }).fail(function (err) {
             throw err;
@@ -65,7 +63,7 @@
             url: url,
             method: 'GET',
             success: function (result) {
-                let info = (result.parsed[0].food.nutrients != null)? result.parsed[0].food.nutrients : null;
+                let info = (result.parsed[0].food.nutrients != null) ? result.parsed[0].food.nutrients : null;
                 appendInfo(info, ingredientClicked);
             }
         }).fail(function (err) {
@@ -73,8 +71,8 @@
         })
     }
 
-    function appendInfo(result, id, currDiv) {        
-        (result != null)? Object.keys(result).forEach(e => $('.append').append(`<p class='info'>${e} ${result[e]}</p>`)) : $('.append').append(`<p>No info available</p>`);
+    function appendInfo(result, id, currDiv) {
+        (result != null) ? Object.keys(result).forEach(e => $('.append').append(`<p class='info'>${e} ${result[e]}</p>`)) : $('.append').append(`<p>No info available</p>`);
         $('.append').attr('class', 'list-group-item');
     }
 
@@ -82,26 +80,48 @@
         return parseInt(seconds) / 60;
     }
 
-    function appendResult(food) {
+    function appendResult(food, type) {
         $('#foods').html('');
         $('#foodlist').html('');
-        if (food.length == 0) {
-            $('#foods').html('No results found');
-        }
-        for (var i = 0; i < food.length; i++) {
+
+        if (type == 1) {
+
+            if (food.length == 0) {
+                $('#foods').html('No results found');
+            }
+
+            for (var i = 0; i < food.length; i++) {
+                $('#foods').append(`
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src=${food[i].smallImageUrls[0]} alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title"><ul>${food[i].recipeName}</ul></h5>
+                        <p class="card-text">
+                            <ul>Prepared in ${secondsToMinutes(food[i].totalTimeInSeconds)} minutes</ul>
+                            </p>
+                            <ul><a href="#" class="btn btn-primary" id='wantIt' data-val=${food[i].id}>Click for more</a></ul>
+                            </div>
+                            </div>
+                            <br>
+                            `)
+            }
+        }else{
+
+            let random = food[Math.floor(Math.random()*food.length)]
+
             $('#foods').append(`
-            <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src=${food[i].smallImageUrls[0]} alt="Card image cap">
-            <div class="card-body">
-            <h5 class="card-title"><ul>${food[i].recipeName}</ul></h5>
-            <p class="card-text">
-                <ul>Prepared in ${secondsToMinutes(food[i].totalTimeInSeconds)} minutes</ul>
-                </p>
-            <ul><a href="#" class="btn btn-primary" id='wantIt' data-val=${food[i].id}>Click for more</a></ul>
-            </div>
-            </div>
-            <br>
-            `)
+                <div class="card" style="width: 18rem;">
+                    <img class="card-img-top" src=${random.smallImageUrls[0]} alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title"><ul>${random.recipeName}</ul></h5>
+                        <p class="card-text">
+                            <ul>Prepared in ${secondsToMinutes(random.totalTimeInSeconds)} minutes</ul>
+                            </p>
+                            <ul><a href="#" class="btn btn-primary" id='wantIt' data-val=${random.id}>Click for more</a></ul>
+                            </div>
+                            </div>
+                            <br>
+                            `)
         }
     }
 
@@ -229,8 +249,12 @@
 
     $(document).on('click', '#taco', function (e) {
         event.preventDefault();
-        searchRecipeByTerms($('#basic').val().trim());
+        searchRecipeByTerms($('#basic').val().trim(), 1);
     });
+
+    $(document).on('click', '#random', function (e) {
+        searchRecipeByTerms(randomFoods(), 2);
+    })
 
 
 </script>
