@@ -8,10 +8,65 @@ var config = {
   messagingSenderId: "42896755050"
 };
 
+
 firebase.initializeApp(config);
 
-// var signInButton = document.getElementById("signIn")
-// signInButton.addEventListener("click", signIn);
+var database = firebase.database();
+
+var api = {}
+var userProfile = {}
+function apiKeyUpdate(){
+  api = getApiKeys();
+}
+
+
+// function getApiKeys(){
+//   api = {};
+//   database.ref('/api/').once('value', function(snap){
+//     snap.forEach(function(child){
+//       api[child.key] = child.val();
+//     })
+//   });
+//   return api;
+// }
+
+// function getUserProfile(){
+//   rst = {}
+//   database.ref('/users/' + getUid()).once('value', function(snap){
+//     snap.forEach(function(child){
+//       rst[child.key] = child.val();
+//     })
+//   }).then(function(){
+//     console.log(rst);
+//   })
+//   return rst;
+// }
+
+function getApiKeys(){
+  return retrieveData('/api/')
+}
+
+function updateUserProfile(){
+  rst = {};
+  database.ref('/users/' + getUid()).once('value', function(snap){
+    snap.forEach(function(child){
+      rst[child.key] = child.val();
+    })
+  }).then(function(){
+    userProfile = rst;
+  })
+}
+
+function retrieveData(path){
+  rst = {};
+  database.ref(path).once('value', function(snap){
+    snap.forEach(function(child){
+      rst[child.key] = child.val();
+    })
+  }).then(function(){
+    return rst;
+  })
+}
 
 document.getElementById("signout-button").addEventListener("click", function(){
   signOut();
@@ -53,13 +108,14 @@ firebase.auth().onAuthStateChanged(function(user){
  
   // mp: code redundant
   if (user){
-    console.log(getUid());
     elements.signin.forEach((e) => {
       e.style.display = "none"
     });
     elements.signout.forEach((e) => {
       e.style.display = "block"
     });
+    addUserProfile(user);
+    
   } else {
     elements.signin.forEach((e) => {
       e.style.display = "block"
@@ -80,7 +136,37 @@ function getUid(){
   return getUser().uid;
 }
 
+function getUemail(){
+  return getUser().email;
+}
+
 function signOut(){
   firebase.auth().signOut();
 }
 
+function addUserProfile(user){
+  let existing = false;
+  database.ref('/users/').once('value', function(snap){
+    snap.forEach(function(child){
+      if (child.key == user.uid){
+        existing = true;
+      }
+    })
+  }).then(function(){
+    if (existing){
+      updateUserProfile();
+    } else {
+      database.ref('/users/' + user.uid).set(constructUser(user));
+      updateUserProfile();
+    }
+  })
+}
+
+function constructUser(user){
+  return {
+    name: user.displayName,
+    uid: user.uid,
+    email: user.email,
+    favoirts: ["placeholder"]
+  }
+}
