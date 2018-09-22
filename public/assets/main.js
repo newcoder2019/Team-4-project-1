@@ -13,15 +13,17 @@ firebase.initializeApp(config);
 
 var database = firebase.database();
 
-var api;
+var api = getApi(); 
 
-database.ref('/api/').on('value', function(snapshot){
-  api = snapshot.val();
-});
-console.log(api);
-
-// var signInButton = document.getElementById("signIn")
-// signInButton.addEventListener("click", signIn);
+function getApi(){
+  rst = {};
+  database.ref('/api/').once('value', function(snap){
+    snap.forEach(function(child){
+      rst[child.key] = child.val();
+    })
+  });
+  return rst;
+}
 
 document.getElementById("signout-button").addEventListener("click", function(){
   signOut();
@@ -100,10 +102,21 @@ function signOut(){
 }
 
 function addUserProfile(user){
-  if (user.uid in database.ref('/users/')){
-  } else {
-    database.ref('/users/' + user.uid).set(constructUser(user));
-  }
+  let existing = false;
+  database.ref('/users/').once('value', function(snap){
+    snap.forEach(function(child){
+      if (child.key == user.uid){
+        existing = true;
+      }
+    })
+  }).then(function(){
+    if (existing){
+      console.log("existing user signed in");
+    } else {
+      console.log("new user signed in")
+      database.ref('/users/' + user.uid).set(constructUser(user));
+    }
+  })
 }
 
 function constructUser(user){
