@@ -1,6 +1,3 @@
-
-console.log(keys)
-
 function searchRecipeByTerms(foodTerm) {
     let url = "http://api.yummly.com/v1/api/recipes";
     url += '?_app_id=' + keys.yummly.appId
@@ -24,7 +21,6 @@ function secondsToMinutes(seconds) {
 function appendResult(food) {
     $('#foods').html('');
     $('#foodlist').html('');
-    $('#walmartDiv').html('');
     if (food.length == 0) {
         $('#foods').html('No results found');
     }
@@ -112,6 +108,30 @@ function displayRecipe(result) {
         `)
 }
 
+function ingredientInfo(ingredientClicked) {
+    let url = 'https://api.edamam.com/api/food-database/parser?ingr=';
+
+    url += ingredientClicked +
+        '&app_id=' + keys.foodDb.appId
+        + '&app_key=' + keys.foodDb.key
+
+    $.ajax({
+        url: url,
+        method: 'GET',
+        success: function (result) {
+            let info = (result.parsed[0].food.nutrients != null) ? result.parsed[0].food.nutrients : null;
+            appendInfo(info, ingredientClicked);
+        }
+    }).fail(function (err) {
+        throw err;
+    })
+}
+
+function appendInfo(result, id, currDiv) {
+    (result != null) ? Object.keys(result).forEach(e => $('.append').append(`<p class='info'>${e} ${result[e]}</p>`)) : $('.append').append(`<p>No info available</p>`);
+    $('.append').attr('class', 'list-group-item');
+}
+
 function recipe(name, prepTime, ingredients, id, servingSize, imgLink, URL, calories) {
     this.name = name;
     this.prepTime = prepTime;
@@ -123,20 +143,15 @@ function recipe(name, prepTime, ingredients, id, servingSize, imgLink, URL, calo
     this.calories = calories; //object
     this.getCal = function () {
         return ((this.calories != null) ? (String(this.calories.value) + ' ' + String(this.calories.unit.pluralAbbreviation)) : 'Not Available');
-
-        // if (this.calories != null) {
-        //     return (String(this.calories.value) + ' ' + String(this.calories.unit.pluralAbbreviation));
-        // } else {
-        //     return 'Not Available'
-        // }
     }
 }
 
 function showIngredients(ingredients) {
-    //${showIngredients(food[i].ingredients)}
     let toReturn = '';
     for (let i = 0; i < ingredients.length; i++) {
-        toReturn += `<li class="list-group-item" id="walmartable" data-val="${cleanIngredient(ingredients[i])}">${ingredients[i]}</li>`
+        let noMeasurements = cleanIngredient(ingredients[i]);
+        toReturn += `<li class="list-group-item" id="moreInfo" data-val="${noMeasurements}">${ingredients[i]}
+                </li>`
     }
     return toReturn;
 }
@@ -152,29 +167,19 @@ function cleanIngredient(item) {
     return toReturn.trim();
 }
 
-// function walmartSearch(term) {
+$(document).on('click', '#moreInfo', function () {
+    $(this).removeAttr('moreInfo');
+    $(this).attr('id', 'lessInfo');
+    $(this).addClass('append');
+    ingredientInfo($(this).data('val'));
+});
 
-//     //http://api.walmartlabs.com/v1/search?apiKey=q393az5mmru5ah3duz4x9ka2&query=rice
-//     let url = "http://api.walmartlabs.com/v1/search";
-//     url += '?apiKey=' + keys.walmart.key
-//         + '&query=' + term;
-//     $.ajax({
-//         url: url,
-//         method: 'GET',
-//         success: function (result) {
-//             console.log(result)
-//             //appendWalmart(result)
-//         }
-//     }).fail(function (err) {
-//         throw err;
-//     });
-// }
-
-// $(document).on('click', '#walmartable', function () {
-//     //$('#foodlist').hide();
-//     console.log($(this).data('val'));
-//     walmartSearch($(this).data('val'));
-// })
+$(document).on('click', '#lessInfo', function () {
+    $(this).removeAttr('lessInfo');
+    $(this).attr('id', 'moreInfo');
+    $(this).children().html('');
+    $(this).children().remove('.info');
+});
 
 $(document).on('click', '#wantIt', function () {
     $('#foods').hide();
