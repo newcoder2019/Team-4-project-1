@@ -13,16 +13,59 @@ firebase.initializeApp(config);
 
 var database = firebase.database();
 
-var api = getApi(); 
+var api = {}
+var userProfile = {}
+function apiKeyUpdate(){
+  api = getApiKeys();
+}
 
-function getApi(){
+
+// function getApiKeys(){
+//   api = {};
+//   database.ref('/api/').once('value', function(snap){
+//     snap.forEach(function(child){
+//       api[child.key] = child.val();
+//     })
+//   });
+//   return api;
+// }
+
+// function getUserProfile(){
+//   rst = {}
+//   database.ref('/users/' + getUid()).once('value', function(snap){
+//     snap.forEach(function(child){
+//       rst[child.key] = child.val();
+//     })
+//   }).then(function(){
+//     console.log(rst);
+//   })
+//   return rst;
+// }
+
+function getApiKeys(){
+  return retrieveData('/api/')
+}
+
+function updateUserProfile(){
   rst = {};
-  database.ref('/api/').once('value', function(snap){
+  database.ref('/users/' + getUid()).once('value', function(snap){
     snap.forEach(function(child){
       rst[child.key] = child.val();
     })
-  });
-  return rst;
+  }).then(function(){
+    userProfile = rst;
+  })
+}
+
+function retrieveData(path){
+  rst = {};
+  database.ref(path).once('value', function(snap){
+    snap.forEach(function(child){
+      rst[child.key] = child.val();
+    })
+  }).then(function(){
+    return rst;
+  })
 }
 
 document.getElementById("signout-button").addEventListener("click", function(){
@@ -111,10 +154,10 @@ function addUserProfile(user){
     })
   }).then(function(){
     if (existing){
-      console.log("existing user signed in");
+      updateUserProfile();
     } else {
-      console.log("new user signed in")
       database.ref('/users/' + user.uid).set(constructUser(user));
+      updateUserProfile();
     }
   })
 }
