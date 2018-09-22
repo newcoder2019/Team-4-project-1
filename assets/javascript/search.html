@@ -189,6 +189,7 @@
             </ul>
             <div class="card-body">
                 <a href=${recipeObj.URL} target="_blank" class="card-link">Click here for recipe</a>
+                <br>
                 <button type="button" id='favorite' data-val="${recipeObj.id}">Favorite</button>
             </div>
         </div>
@@ -229,6 +230,15 @@
             }
         }
         return toReturn.trim();
+    }
+
+    function isDupe(array, val){
+        for(let i = 0; i < array.length; i++){
+            if(array[i] == val){
+                return true;
+            }
+        }
+        return false;
     }
 
     $(document).on('click', '#moreInfo', function () {
