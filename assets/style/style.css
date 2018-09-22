@@ -36,6 +36,23 @@
     overflow: hidden;
  }
 
+ .display-3{
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+ }
+
+ .card {
+    display: inline-block;
+
+}
+
+.row {
+    text-align: center;
+}
+
+ .favs{
+     display:none;
+ }
+
  @media (min-width: 600px) {
   body {
     background: white;

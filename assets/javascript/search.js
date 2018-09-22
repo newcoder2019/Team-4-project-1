@@ -45,6 +45,9 @@ function secondsToMinutes(seconds) {
 function appendResult(food, type) {
     $('#foods').html('');
     $('#foodlist').html('');
+    
+    
+
 
     if (type == 1) {
 
@@ -53,9 +56,11 @@ function appendResult(food, type) {
         }
 
         for (var i = 0; i < food.length; i++) {
+
+            let image = ((food[i].smallImageUrls != null)? food[i].smallImageUrls[0] : 'assets/images/imageNotFound.png');
             $('#foods').append(`
-            <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src=${food[i].smallImageUrls[0]} alt="Card image cap">
+            <div class="card col-3" style="width: 18rem;">
+                <img class="card-img-top" src=${image} alt="assets/images/imageNotFound.png">
                 <div class="card-body">
                     <h5 class="card-title"><ul>${food[i].recipeName}</ul></h5>
                     <p class="card-text">
@@ -71,9 +76,10 @@ function appendResult(food, type) {
 
         let random = food[Math.floor(Math.random()*food.length)]
 
+        let image = ((random.smallImageUrls != null)? random.smallImageUrls[0] : 'assets/images/imageNotFound.png');
         $('#foods').append(`
-            <div class="card" style="width: 18rem;">
-                <img class="card-img-top" src=${random.smallImageUrls[0]} alt="Card image cap">
+            <div class="card col-3" style="width: 18rem;">
+                <img class="card-img-top" src=${image} alt="assets/images/imageNotFound.png">
                 <div class="card-body">
                     <h5 class="card-title"><ul>${random.recipeName}</ul></h5>
                     <p class="card-text">
@@ -211,7 +217,7 @@ $(document).on('click', '#wantIt', function () {
 
 $(document).on('click', '#taco', function (e) {
     event.preventDefault();
-    searchRecipeByTerms($('#basic').val().trim(), 1);
+    searchRecipeByTerms($('#food').val().trim(), 1);
 });
 
 $(document).on('click', '#random', function (e) {
