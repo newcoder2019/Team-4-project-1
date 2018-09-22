@@ -295,13 +295,7 @@ $(document).on('click', '#favorite', function () {
     }
 });
 
-function hideFav(){
-    //if user is not logged in; hide button
-    $('#favorite').hide();
-
-    //else show
-}
-
 $(document).ready(function(){
     checkLocalStorage();
+    $('#showFav').hide();
 });
