@@ -11,6 +11,7 @@ var config = {
 
 firebase.initializeApp(config);
 
+var userSignedIn = false;
 var database = firebase.database();
 
 var api = {}
@@ -108,6 +109,7 @@ firebase.auth().onAuthStateChanged(function(user){
  
   // mp: code redundant
   if (user){
+    userSignedIn = true;
     elements.signin.forEach((e) => {
       e.style.display = "none"
     });
@@ -117,6 +119,7 @@ firebase.auth().onAuthStateChanged(function(user){
     addUserProfile(user);
     
   } else {
+    userSignedIn = false;
     elements.signin.forEach((e) => {
       e.style.display = "block"
     });
