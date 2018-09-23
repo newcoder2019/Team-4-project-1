@@ -1,6 +1,7 @@
-keys.js
-test.file
-search.html
-firebase.json
-database.rules.json
-.firebaserc
+assets/javascript/key.js
+assets/javascript/listOfWords.js
+assets/javascript/search.html
+assets/javascript/search.js
+assets/javascript/test.html
+assets/images/*
+index.html

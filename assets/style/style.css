@@ -21,6 +21,11 @@
     line-height: 100px;
     }
 
+.SearchBar {
+    position: relative;
+    width: 500px;
+}
+
     /* Image for Parallax Section */
 .paralsec {
     background-image: url("../images/Food.jpg")
@@ -34,6 +39,27 @@
     border: none;
     cursor:pointer;
     overflow: hidden;
+ }
+
+ .shadow{
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+ }
+
+ .card {
+    display: inline-block;
+
+}
+
+.info{
+    color: black;
+}
+
+.row {
+    text-align: center;
+}
+
+ .favs{
+     display:none;
  }
 
  @media (min-width: 600px) {
