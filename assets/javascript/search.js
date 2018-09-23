@@ -2,7 +2,7 @@ let recipeStore = [];
 let tempFavs = [];
 
 function searchRecipeByTerms(foodTerm, type) {
-    let url = "http://api.yummly.com/v1/api/recipes";
+    let url = "https://api.yummly.com/v1/api/recipes";
     url += '?_app_id=' + keys.yummly.appId
         + '&_app_key=' + keys.yummly.key
         + '&q=' + foodTerm;
