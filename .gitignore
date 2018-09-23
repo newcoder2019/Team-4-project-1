@@ -1,7 +1,7 @@
-assets/javascript/key.js
-assets/javascript/listOfWords.js
-assets/javascript/search.html
-assets/javascript/search.js
-assets/javascript/test.html
-assets/images/*
+key.js
+listOfWords.js
+search.html
+search.js
+test.html
+*.jpg
 index.html
