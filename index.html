@@ -20,8 +20,9 @@
   <!-- CDN for firebaseui -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
   <script src="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.js"></script>
-  <link rel="stylesheet" href="./assets/style/style.css"></head>
-  <link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.css" />
+  <link rel="stylesheet" href="./assets/style/style.css">
+</head>
+<link type="text/css" rel="stylesheet" href="https://cdn.firebase.com/libs/firebaseui/3.1.1/firebaseui.css" />
 
 <title>FOOD</title>
 </head>
@@ -30,6 +31,11 @@
 <body>
 
   <div class="jumbotron paral paralsec">
+
+    <button class="button" style="float: right">
+      <div class="btn btn-outline-light" id='signout-button' style="display: none"><i class="fas fa-key"></i> Log Out
+    </button>
+
     <div class="container">
       <div class="row" style="justify-content-md-center">
         <h1 class="display-4 shadow"><strong>Let's Find You A Delicious Meal</strong></h1>
@@ -39,7 +45,7 @@
           </div>
           <br>
           <div class="container">
-            <div class="row" style= "justify-content-md-center">
+            <div class="row" style="justify-content-md-center">
               <button class="button">
                 <div class="btn btn-outline-light" id='taco'><i class="fas fa-utensils"></i> EAT
                 </div>
@@ -47,16 +53,16 @@
                 </div>
                 <div class="btn btn-outline-light" id='showFav' class='favs'><i class="fas fa-heart"></i> Favorites
                 </div>
-                <div class="btn btn-outline-light" id='signout-button' style="display: none"><i class="fas fa-key"></i>
+                <!-- <div class="btn btn-outline-light" id='signout-button' style="display: none"><i class="fas fa-key"></i>
                   Sign Out
-                </div>
+                </div> -->
             </div>
           </div>
         </div>
       </div>
 
       <!-- login container -->
-      <div id="firebaseui-auth-container" style="padding: 40px"></div>
+      <div id="firebaseui-auth-container" style="padding: 40px;"></div>
       <div id="loader">Loading...</div>
 
     </div>
@@ -65,11 +71,11 @@
   <br>
 
   <div class="container">
-  <div id='foods' class='row'>
+    <div id='foods' class='row'>
 
-  </div>
-  <div id="foodlist">
-  </div>
+    </div>
+    <div id="foodlist">
+    </div>
   </div>
 
 </body>
