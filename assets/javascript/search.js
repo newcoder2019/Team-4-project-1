@@ -59,7 +59,7 @@ function appendResult(food, type) {
 
             let image = ((food[i].smallImageUrls != null) ? food[i].smallImageUrls[0] : 'assets/images/imageNotFound.png');
             $('#foods').append(`
-            <div class="card col-3" style="width: 18rem;">
+            <div class="card col-xs-18 col-sm-6 col-md-3" style="width: 18rem;">
                 <img class="card-img-top" src=${image} alt="assets/images/imageNotFound.png">
                 <div class="card-body">
                     <h5 class="card-title"><ul>${food[i].recipeName}</ul></h5>
@@ -79,7 +79,7 @@ function appendResult(food, type) {
         let image = ((random.smallImageUrls != null) ? random.smallImageUrls[0] : 'assets/images/imageNotFound.png');
         $('#foods').append(`
             
-            <div class="card col-3" style="width: 18rem;">
+            <div class="card col-xs-18 col-sm-6 col-md-3" style="width: 18rem;">
                 <img class="card-img-top" src=${image} alt="assets/images/imageNotFound.png">
                 <div class="card-body">
                     <h5 class="card-title"><ul>${random.recipeName}</ul></h5>
@@ -142,7 +142,7 @@ function displayRecipe(result) {
     //this object can be saved to firebase
 
     $('#foodlist').append(`
-    <div class="card col-3" style="width: 18rem;">
+    <div class="card col-xs-18 col-sm-6 col-md-3" style="width: 18rem;">
         <img class="card-img-top" src=${recipeObj.imgLink} alt="Card image cap">
         <div class="card-body">
             <h5 class="card-title">${recipeObj.name}</h5>
@@ -247,7 +247,7 @@ $(document).on('click', '#showFav', function () {
 
     for (let i = 1; i < temp.length; i++) {
         $('#foods').append(`
-            <div class="card col-3" style="width: 18rem;">
+            <div class="card col-xs-18 col-sm-6 col-md-3" style="width: 18rem;">
                 <img class="card-img-top" src=${temp[i].imgLink} alt="assets/images/imageNotFound.png">
                 <div class="card-body">
                     <h5 class="card-title"><ul>${temp[i].name}</ul></h5>
