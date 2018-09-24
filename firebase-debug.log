@@ -1,0 +1,28 @@
+[debug] [2018-09-24T00:14:08.461Z] ----------------------------------------------------------------------
+[debug] [2018-09-24T00:14:08.463Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\Minjae\AppData\Roaming\npm\node_modules\firebase-tools\bin\firebase serve
+[debug] [2018-09-24T00:14:08.463Z] CLI Version:   4.2.1
+[debug] [2018-09-24T00:14:08.463Z] Platform:      win32
+[debug] [2018-09-24T00:14:08.463Z] Node Version:  v8.11.3
+[debug] [2018-09-24T00:14:08.464Z] Time:          Sun Sep 23 2018 17:14:08 GMT-0700 (Pacific Daylight Time)
+[debug] [2018-09-24T00:14:08.464Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2018-09-24T00:14:08.474Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2018-09-24T00:14:08.474Z] > authorizing via signed-in user
+[debug] [2018-09-24T00:14:08.476Z] > refreshing access token with scopes: ["email","https://www.googleapis.com/auth/cloud-platform","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","openid"]
+[debug] [2018-09-24T00:14:08.476Z] >>> HTTP REQUEST POST https://www.googleapis.com/oauth2/v3/token  
+
+[debug] [2018-09-24T00:14:08.857Z] <<< HTTP RESPONSE 200
+[debug] [2018-09-24T00:14:08.884Z] >>> HTTP REQUEST GET https://admin.firebase.com/v1/projects/recipeapp-fd  
+ 
+[debug] [2018-09-24T00:14:09.651Z] <<< HTTP RESPONSE 200
+[debug] [2018-09-24T00:14:09.654Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/recipeapp-fd  
+ 
+[debug] [2018-09-24T00:14:10.341Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from 'C:\Users\Minjae\Documents\Bootcamp\Team-4-project-1'...
+[info] 
+[debug] [2018-09-24T00:14:10.355Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/42896755050/clients/_:getWebAppConfig  
+ 
+[debug] [2018-09-24T00:14:10.980Z] <<< HTTP RESPONSE 200
+[info] i  hosting[recipeapp-fd]: Serving hosting files from: public
+[info] +  hosting[recipeapp-fd]: Local server: http://localhost:5000

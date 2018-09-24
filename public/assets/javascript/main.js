@@ -16,35 +16,24 @@ var database = firebase.database();
 
 var api = {}
 var userProfile = {}
-function apiKeyUpdate(){
-  api = getApiKeys();
+
+function UpdateApiKey(){ // have permission issue. 
+  database.ref('/api/').once('value', function(snap){
+    snap.forEach(function(child){
+      api[child.key] = child.val();
+    })
+  }).then(function(){
+  })
 }
 
 
-// function getApiKeys(){
-//   api = {};
-//   database.ref('/api/').once('value', function(snap){
-//     snap.forEach(function(child){
-//       api[child.key] = child.val();
-//     })
-//   });
-//   return api;
-// }
-
-// function getUserProfile(){
-//   rst = {}
-//   database.ref('/users/' + getUid()).once('value', function(snap){
-//     snap.forEach(function(child){
-//       rst[child.key] = child.val();
-//     })
-//   }).then(function(){
-//     console.log(rst);
-//   })
-//   return rst;
-// }
-
-function getApiKeys(){
-  return retrieveData('/api/')
+function pushFavorites(s){
+  let userRef = database.ref('/users/' + getUid());
+  userRef.child('favorites').once('value', function(snap){
+    snap.forEach(function(child){
+      console.log(child.val());
+    })
+  })
 }
 
 function updateUserProfile(){
@@ -96,7 +85,6 @@ ui.start('#firebaseui-auth-container', uiConfig);
 
 // When the user sign in or sign out, this function will be triggered.
 firebase.auth().onAuthStateChanged(function(user){
-
   let elements = {
     // to-be disappeared when sign in
     // to-be appeared when sign out
@@ -169,6 +157,6 @@ function constructUser(user){
     name: user.displayName,
     uid: user.uid,
     email: user.email,
-    favoirts: ["placeholder"]
+    favoirts: "placeholder"
   }
 }
