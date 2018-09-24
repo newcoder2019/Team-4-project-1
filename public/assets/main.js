@@ -101,11 +101,12 @@ firebase.auth().onAuthStateChanged(function(user){
     // to-be disappeared when sign in
     // to-be appeared when sign out
     signin : [document.getElementById("firebaseui-auth-container"),
-    $('#showFav').show()],
+              document.getElementById("first-main-display"),
+              $('#showFav').show()],
     // to-be appeared when sign out
     // to-be disappeared when sign 
     signout : [document.getElementById("signout-button"),
-    $('#showFav').hide()]
+              $('#showFav').hide()]
   }
  
   // mp: code redundant
@@ -146,10 +147,6 @@ function getUemail(){
 
 function signOut(){
   firebase.auth().signOut();
-}
-
-function pushProfile(){
-  database.ref('/users/'+getUid()).set(userProfile);
 }
 
 function addUserProfile(user){
