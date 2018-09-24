@@ -59,7 +59,7 @@ function appendResult(food, type) {
 
             let image = ((food[i].smallImageUrls != null) ? food[i].smallImageUrls[0] : 'assets/images/imageNotFound.png');
             $('#foods').append(`
-            <div class="card col-3" style="width: 18rem;">
+            <div class="card col-xs-18 col-sm-6 col-md-3" style="width: 18rem;">
                 <img class="card-img-top" src=${image} alt="assets/images/imageNotFound.png">
                 <div class="card-body">
                     <h5 class="card-title"><ul>${food[i].recipeName}</ul></h5>
@@ -79,7 +79,7 @@ function appendResult(food, type) {
         let image = ((random.smallImageUrls != null) ? random.smallImageUrls[0] : 'assets/images/imageNotFound.png');
         $('#foods').append(`
             
-            <div class="card col-3" style="width: 18rem;">
+            <div class="card col-xs-18 col-sm-6 col-md-3" style="width: 18rem;">
                 <img class="card-img-top" src=${image} alt="assets/images/imageNotFound.png">
                 <div class="card-body">
                     <h5 class="card-title"><ul>${random.recipeName}</ul></h5>
@@ -138,7 +138,6 @@ function displayRecipe(result) {
     recipeStore.push(recipeObj);
 
     console.log(recipeObj);
-    
     //this object can be saved to firebase
 
     $('#foodlist').append(`
@@ -148,7 +147,7 @@ function displayRecipe(result) {
             <h5 class="card-title">${recipeObj.name}</h5>
             <p class="card-text">
                 <ul>Servings: ${recipeObj.servingSize}</ul>
-                <ul>Calories: ${caloriesObjectless(recipeObj)}</ul>
+                <ul>Calories: ${recipeObj.getCal()}</ul>
                 <ul>Time to Prepare: ${recipeObj.prepTime}</ul>
                 </p>
         </div>
@@ -173,6 +172,9 @@ function recipe(name, prepTime, ingredients, id, servingSize, imgLink, URL, calo
     this.imgLink = imgLink;
     this.URL = URL;
     this.calories = calories; //object
+    this.getCal = function () {
+        return ((this.calories != null) ? (String(this.calories.value) + ' ' + String(this.calories.unit.pluralAbbreviation)) : 'Not Available');
+    }
 }
 
 function showIngredients(ingredients) {
@@ -195,6 +197,14 @@ function cleanIngredient(item) {
         }
     }
     return toReturn.trim();
+}
+
+function checkLocalStorage() {
+    if (localStorage.getItem('recipes') == null) {
+        localStorage.setItem('recipes', tempFavs);
+    }else{
+        tempFavs = JSON.parse(localStorage.getItem('recipes'))
+    }
 }
 
 $(document).on('click', '#moreInfo', function () {
@@ -221,9 +231,7 @@ $(document).on('click', '#taco', function (e) {
     event.preventDefault();
     $('#foods').show();
     $('#foodlist').hide();
-    let temp = $('#food').val().trim();
-    $('#food').val('');
-    searchRecipeByTerms(temp, 1);
+    searchRecipeByTerms($('#food').val().trim(), 1);
 });
 
 $(document).on('click', '#random', function (e) {
@@ -232,22 +240,23 @@ $(document).on('click', '#random', function (e) {
     searchRecipeByTerms(randomFoods(), 2);
 });
 
-function caloriesObjectless(obj) {
+function caloriesObjectless(obj){
     return ((obj.calories != null) ? (String(obj.calories.value) + ' ' + String(obj.calories.unit.pluralAbbreviation)) : 'Not Available');
 }
 
 
-$(document).on('click', '#showFav', function () {
+$(document).on('click', '#showFav', function(){
     $('#foods').show();
     $('#foodlist').show();
     $('#foods').html('');
     $('#foodlist').html('');
-    let temp = userProfile.favoirts;
+    let temp = JSON.parse(localStorage.getItem('recipes'));
     console.log(temp);
 
-    for (let i = 1; i < temp.length; i++) {
+    for(let i = 0; i < temp.length; i++){
         $('#foods').append(`
-            <div class="card col-3" style="width: 18rem;">
+            
+            <div class="card col-xs-18 col-sm-6 col-md-3" style="width: 18rem;">
                 <img class="card-img-top" src=${temp[i].imgLink} alt="assets/images/imageNotFound.png">
                 <div class="card-body">
                     <h5 class="card-title"><ul>${temp[i].name}</ul></h5>
@@ -263,10 +272,10 @@ $(document).on('click', '#showFav', function () {
 
 });
 
-function isDupe(array, val) {
-    for (let i = 0; i < array.length; i++) {
-        console.log(array[i].id + ' = ' + val.id)
-        if (array[i].id == val.id) {
+function isDupe(array, val){
+    for(let i = 0; i < array.length; i++){
+        console.log(array[i].id +' = '+val.id)
+        if(array[i].id == val.id){
             return true;
         }
     }
@@ -278,22 +287,15 @@ $(document).on('click', '#favorite', function () {
 
     for (let i = 0; i < recipeStore.length; i++) {
         if (id == recipeStore[i].id) {
-            if (!isDupe(userProfile.favoirts, recipeStore[i])) {
-                //tempFavs.push(recipeStore[i]);
-                userProfile.favoirts.push(recipeStore[i]);
-                pushProfile();
-                console.log(userProfile.favoirts)
-                console.log(userProfile.favoirts[1].id);
-                // localStorage.setItem('recipes', JSON.stringify(tempFavs));
+            if(!isDupe(tempFavs, recipeStore[i])){
+                tempFavs.push(recipeStore[i]);
+                localStorage.setItem('recipes', JSON.stringify(tempFavs));
             }
         }
     }
 });
 
-function pushProfile() {
-    database.ref('/users/' + getUid()).set(userProfile);
-};
-
-$(document).ready(function () {
-    
+$(document).ready(function(){
+    checkLocalStorage();
+    $('#showFav').hide();
 });
