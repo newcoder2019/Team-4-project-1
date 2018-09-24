@@ -27,14 +27,14 @@ function UpdateApiKey(){ // have permission issue.
 }
 
 
-function pushFavorites(s){
-  let userRef = database.ref('/users/' + getUid());
-  userRef.child('favorites').once('value', function(snap){
-    snap.forEach(function(child){
-      console.log(child.val());
-    })
-  })
-}
+// function pushFavorites(s){
+//   let userRef = database.ref('/users/' + getUid());
+//   userRef.child('favorites').once('value', function(snap){
+//     snap.forEach(function(child){
+//       console.log(child.val());
+//     })
+//   })
+// }
 
 function updateUserProfile(){
   rst = {};
@@ -157,6 +157,10 @@ function constructUser(user){
     name: user.displayName,
     uid: user.uid,
     email: user.email,
-    favoirts: "placeholder"
+    favoirts: ["placeholder"]
   }
+}
+
+function pushProfile(){
+  database.ref('/users/'+getUid()).set(userProfile);
 }
