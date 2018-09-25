@@ -11,3 +11,12 @@ Some of the issues we had with the front end were; centering buttons, setting th
  For the back end some of the issues 
  Libraries and frameworks
  As mentioned above we used Bootstrap, JQuery, and Awsome fonts.
+ 
+ # Known Bugs
+ * There is an array that keeps track of the recipes that have been clicked on that was made to keep track of all the recipes incase the user decides to 'favorite' a recipe. On click, a function is called to find the specific recipe in the temporary array which matches the recipes based on a unique 'id' given to all the recipes. The amount of recipe objects that can be stored in the array is unknown, but there is a limit to how much can be stored until the application runs out of memory.
+ 
+* Issue with the formating of the recipe cards when viewed at a specific width.
+
+* Images of the recipes appear blurry due how the image urls are given in the JSON object from the GET request; higher resolution images are avaiable, but not all recipes will have a higher resolution image.
+
+* Duplicates of a recipe may appear depending on what is searched.
