@@ -20,29 +20,6 @@ function apiKeyUpdate(){
   api = getApiKeys();
 }
 
-
-// function getApiKeys(){
-//   api = {};
-//   database.ref('/api/').once('value', function(snap){
-//     snap.forEach(function(child){
-//       api[child.key] = child.val();
-//     })
-//   });
-//   return api;
-// }
-
-// function getUserProfile(){
-//   rst = {}
-//   database.ref('/users/' + getUid()).once('value', function(snap){
-//     snap.forEach(function(child){
-//       rst[child.key] = child.val();
-//     })
-//   }).then(function(){
-//     console.log(rst);
-//   })
-//   return rst;
-// }
-
 function getApiKeys(){
   return retrieveData('/api/')
 }
@@ -100,23 +77,23 @@ firebase.auth().onAuthStateChanged(function(user){
   let elements = {
     // to-be disappeared when sign in
     // to-be appeared when sign out
-    signin : [document.getElementById("firebaseui-auth-container"),
-    $('#showFav').show()],
+    signin : [document.getElementById("firebaseui-auth-container")],
     // to-be appeared when sign out
     // to-be disappeared when sign 
-    signout : [document.getElementById("signout-button"),
-    $('#showFav').hide()]
+    signout : [document.getElementById("signout-button")]
   }
  
   // mp: code redundant
   if (user){
     userSignedIn = true;
     elements.signin.forEach((e) => {
-      e.style.display = "none"
+      e.style.display = "none";
     });
     elements.signout.forEach((e) => {
       e.style.display = "block"
     });
+    $('#showFav').show();
+    showEat();
     addUserProfile(user);
     
   } else {
@@ -127,6 +104,7 @@ firebase.auth().onAuthStateChanged(function(user){
     elements.signout.forEach((e) => {
       e.style.display = "none"
     });
+    $('#showFav').hide()
   }
 })
 
@@ -177,4 +155,19 @@ function constructUser(user){
     email: user.email,
     favoirts: ["placeholder"]
   }
+}
+
+$(document).ready(function(){
+  if (userSignedIn){
+    updateUserProfile();
+  }
+})
+
+function showEat(){
+  event.preventDefault();
+  $('#foods').show();
+  $('#foodlist').hide();
+  let temp = $('#food').val().trim();
+  $('#food').val('');
+  searchRecipeByTerms(temp, 1);
 }
