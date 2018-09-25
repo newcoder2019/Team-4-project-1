@@ -103,7 +103,6 @@ function searchByID(yummlyId) {
         url: url,
         method: 'GET',
         success: function (result) {
-            console.log(result);
             displayRecipe(result);
         }
     }).fail(function (err) {
@@ -136,10 +135,6 @@ function displayRecipe(result) {
     );
 
     recipeStore.push(recipeObj);
-
-    console.log(recipeObj);
-    
-    //this object can be saved to firebase
 
     $('#foodlist').append(`
     <div class="card col-xs-18 col-sm-6 col-md-3" style="width: 18rem;">
@@ -243,7 +238,6 @@ $(document).on('click', '#showFav', function () {
     $('#foods').html('');
     $('#foodlist').html('');
     let temp = userProfile.favoirts;
-    console.log(temp);
 
     for (let i = 1; i < temp.length; i++) {
         $('#foods').append(`
@@ -265,7 +259,6 @@ $(document).on('click', '#showFav', function () {
 
 function isDupe(array, val) {
     for (let i = 0; i < array.length; i++) {
-        console.log(array[i].id + ' = ' + val.id)
         if (array[i].id == val.id) {
             return true;
         }
@@ -279,12 +272,8 @@ $(document).on('click', '#favorite', function () {
     for (let i = 0; i < recipeStore.length; i++) {
         if (id == recipeStore[i].id) {
             if (!isDupe(userProfile.favoirts, recipeStore[i])) {
-                //tempFavs.push(recipeStore[i]);
                 userProfile.favoirts.push(recipeStore[i]);
                 pushProfile();
-                console.log(userProfile.favoirts)
-                console.log(userProfile.favoirts[1].id);
-                // localStorage.setItem('recipes', JSON.stringify(tempFavs));
             }
         }
     }
