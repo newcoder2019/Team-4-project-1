@@ -95,7 +95,7 @@ function appendResult(food, type) {
 }
 
 function searchByID(yummlyId) {
-    let url = "http://api.yummly.com/v1/api/recipe/";
+    let url = "https://api.yummly.com/v1/api/recipe/";
     url += yummlyId
         + '?_app_id=' + keys.yummly.appId
         + '&_app_key=' + keys.yummly.key
