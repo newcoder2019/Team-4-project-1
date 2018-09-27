@@ -12,6 +12,7 @@ var config = {
 firebase.initializeApp(config);
 
 var userSignedIn = false;
+var favShow = 'none';
 var database = firebase.database();
 
 var api = {}
@@ -78,33 +79,38 @@ firebase.auth().onAuthStateChanged(function(user){
     // to-be disappeared when sign in
     // to-be appeared when sign out
     signin : [document.getElementById("firebaseui-auth-container")],
-    // to-be appeared when sign out
-    // to-be disappeared when sign 
-    signout : [document.getElementById("signout-button")]
+    // to-be disappeared when sign out
+    // to-be appeared when sign in
+    signout : [document.getElementById("signout-button"),
+                document.getElementById("showFav"),
+                document.getElementById("favorite")
+              ]
   }
  
   // mp: code redundant
   if (user){
     userSignedIn = true;
+    favShow = 'block';
     elements.signin.forEach((e) => {
       e.style.display = "none";
     });
     elements.signout.forEach((e) => {
       e.style.display = "block"
     });
-    $('#showFav').show();
-    showEat();
+    // $('#showFav').show();
     addUserProfile(user);
     
   } else {
     userSignedIn = false;
+    userProfile = {};
+    favShow = 'none'
     elements.signin.forEach((e) => {
       e.style.display = "block"
     });
     elements.signout.forEach((e) => {
       e.style.display = "none"
     });
-    $('#showFav').hide()
+    // $('#showFav').hide()
   }
 })
 
@@ -162,12 +168,3 @@ $(document).ready(function(){
     updateUserProfile();
   }
 })
-
-function showEat(){
-  event.preventDefault();
-  $('#foods').show();
-  $('#foodlist').hide();
-  let temp = $('#food').val().trim();
-  $('#food').val('');
-  searchRecipeByTerms(temp, 1);
-}

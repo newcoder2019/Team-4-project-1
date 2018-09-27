@@ -153,7 +153,7 @@ function displayRecipe(result) {
         </ul>
         <div class="card-body">
             <a href=${recipeObj.URL} target="_blank" class="card-link">Click here for recipe</a>
-            <button type="button" id='favorite' data-val="${recipeObj.id}">Favorite</button>
+            <button type="button" id='favorite' data-val="${recipeObj.id}" style="display: ${favShow}">Favorite</button>
         </div>
     </div>
     `);
