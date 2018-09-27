@@ -153,11 +153,13 @@ function displayRecipe(result) {
         </ul>
         <div class="card-body">
             <a href=${recipeObj.URL} target="_blank" class="card-link">Click here for recipe</a>
-            <button type="button" id='favorite' data-val="${recipeObj.id}" style="display: ${favShow}">Favorite</button>
+            
+            <div class="btn btn-outline-light" id='favorite' data-val="${recipeObj.id}" style="display: ${favShow}"><i class="fas fa-heart"></i> Favorites</div>
         </div>
     </div>
     `);
 }
+//<button type="button" id='favorite' data-val="${recipeObj.id}" style="display: ${favShow}">Favorite</button><div 
 
 function recipe(name, prepTime, ingredients, id, servingSize, imgLink, URL, calories) {
     this.name = name;
