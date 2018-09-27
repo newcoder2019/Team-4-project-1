@@ -33,10 +33,8 @@ function updateUserProfile(){
         rst[child.key] = child.val();
       })}).then(function(){
         userProfile = rst;
-        console.log('profile updated')
       })
   } else {
-    console.log('profile updated, out')
     userProfile = {}
   }
 } 
