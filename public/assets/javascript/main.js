@@ -26,24 +26,29 @@ function getApiKeys(){
 }
 
 function updateUserProfile(){
-  rst = {};
-  database.ref('/users/' + getUid()).once('value', function(snap){
-    snap.forEach(function(child){
-      rst[child.key] = child.val();
-    })
-  }).then(function(){
-    userProfile = rst;
-  })
-}
+  if (userSignedIn){
+    rst = {};
+    database.ref('/users/' + getUid()).once('value', function(snap){
+      snap.forEach(function(child){
+        rst[child.key] = child.val();
+      })}).then(function(){
+        userProfile = rst;
+        console.log('profile updated')
+      })
+  } else {
+    console.log('profile updated, out')
+    userProfile = {}
+  }
+} 
+
 
 function retrieveData(path){
   rst = {};
   database.ref(path).once('value', function(snap){
     snap.forEach(function(child){
       rst[child.key] = child.val();
-    })
-  }).then(function(){
-    return rst;
+    })}).then(function(){
+      return rst;
   })
 }
 
@@ -92,27 +97,31 @@ firebase.auth().onAuthStateChanged(function(user){
     userSignedIn = true;
     favShow = 'block';
     elements.signin.forEach((e) => {
-      e.style.display = "none";
+      if (e != null)
+        e.style.display = "none";
     });
     elements.signout.forEach((e) => {
-      e.style.display = "block"
+      if (e != null)
+        e.style.display = "block"
     });
     // $('#showFav').show();
     addUserProfile(user);
     
   } else {
     userSignedIn = false;
-    userProfile = {};
     favShow = 'none'
     elements.signin.forEach((e) => {
-      e.style.display = "block"
+      if (e != null)
+        e.style.display = "block"
     });
     elements.signout.forEach((e) => {
-      e.style.display = "none"
+      if (e != null)
+        e.style.display = "none"
     });
     // $('#showFav').hide()
   }
-})
+    
+userProile = {};    })
 
 // return current user object from firebase.auth
 function getUser(){
